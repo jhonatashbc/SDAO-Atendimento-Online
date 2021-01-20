@@ -36,7 +36,7 @@ public class MensagemRepositoryTests {
 	
 	@Test
 	public void getBySolicitacaoCodigo() {
-		List<Mensagem> mensagens = mensagemRepository.findBySolicitacaoCodigoOrderByDataAsc(2L);
+		List<Mensagem> mensagens = mensagemRepository.findAllBySolicitacaoCodigoOrderByDataAsc(2L);
 		
 		assertThat(mensagens.size()).isEqualTo(1);
 	}

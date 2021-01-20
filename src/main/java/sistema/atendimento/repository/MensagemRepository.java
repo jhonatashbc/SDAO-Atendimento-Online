@@ -10,7 +10,7 @@ import sistema.atendimento.domain.Mensagem;
 @Repository
 public interface MensagemRepository extends JpaRepository<Mensagem, Long>{
 
-	List<Mensagem> findByOrderByDataAsc();
+	List<Mensagem> findAllByOrderByDataAsc();
 	
-	List<Mensagem> findBySolicitacaoCodigoOrderByDataAsc(Long codigo);
+	List<Mensagem> findAllBySolicitacaoCodigoOrderByDataAsc(Long codigo);
 }
