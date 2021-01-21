@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import sistema.atendimento.domain.Solicitacao;
 import sistema.atendimento.exception.NotFoundException;
+import sistema.atendimento.model.PageModel;
+import sistema.atendimento.model.PageRequestModel;
 import sistema.atendimento.repository.SolicitacaoRepository;
 
 @Service
@@ -32,5 +36,14 @@ public class SolicitacaoService {
 		List<Solicitacao> solicitacoes = solicitacaoRepository
 				.findAllByOrderByDataAsc();
 		return solicitacoes;
+	}
+	
+	public PageModel<Solicitacao> findAllOnLazyModel(PageRequestModel pr) {
+		Pageable pageable = pr.toSpringPageRequest();
+		Page<Solicitacao> page = solicitacaoRepository.findAllByOrderByDataAsc(pageable);
+		
+		PageModel<Solicitacao> pm = new PageModel<Solicitacao>((int) page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent());
+		
+		return pm;
 	}
 }
