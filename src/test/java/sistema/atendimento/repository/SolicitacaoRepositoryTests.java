@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import sistema.atendimento.domain.Atendente;
 import sistema.atendimento.domain.Solicitacao;
+import sistema.atendimento.domain.enums.SolicitacaoStatus;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
@@ -27,11 +28,22 @@ public class SolicitacaoRepositoryTests {
 	public void saveTest() {
 		Atendente atendente = new Atendente();
 		atendente.setCodigo(1L);
-		Solicitacao solicitacao = new Solicitacao(null, new Date(), "Juliana", "Sao Judas", atendente, null);
+		Solicitacao solicitacao = new Solicitacao(null, new Date(), "Juliana", "Sao Judas",SolicitacaoStatus.ABERTA, atendente, null);
 		
 		Solicitacao createdSolicitacao = solicitacaoRepository.save(solicitacao);
 		
-		assertThat(createdSolicitacao.getCodigo()).isEqualTo(1L);
+		assertThat(createdSolicitacao.getCodigo()).isEqualTo(2L);
+	}
+	
+	@Test
+	public void updateTest() {
+		Atendente atendente = new Atendente();
+		atendente.setCodigo(1L);
+		Solicitacao solicitacao = new Solicitacao(2L, new Date(), "Juliana", "Sao Judas",SolicitacaoStatus.ACEITA, atendente, null);
+		
+		Solicitacao updatedSolicitacao = solicitacaoRepository.save(solicitacao);
+		
+		assertThat(updatedSolicitacao.getStatus()).isEqualTo(SolicitacaoStatus.ACEITA.toString());
 	}
 	
 	@Test

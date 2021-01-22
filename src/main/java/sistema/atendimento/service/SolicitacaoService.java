@@ -8,7 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import sistema.atendimento.domain.Atendente;
 import sistema.atendimento.domain.Solicitacao;
+import sistema.atendimento.domain.enums.SolicitacaoStatus;
 import sistema.atendimento.exception.NotFoundException;
 import sistema.atendimento.model.PageModel;
 import sistema.atendimento.model.PageRequestModel;
@@ -24,6 +26,14 @@ public class SolicitacaoService {
 		Solicitacao createdSolicitacao = solicitacaoRepository
 				.save(solicitacao);
 		return createdSolicitacao;
+	}
+	
+	public int updateStatusAceita(Atendente atendente, Long codigoSolicitacao) {
+		return solicitacaoRepository.updateStatusParaAceita(SolicitacaoStatus.ACEITA, atendente.getCodigo(), codigoSolicitacao);
+	}
+	
+	public int updateStatusFinalizada(Long codigoSolicitacao) {
+		return solicitacaoRepository.updateStatusParaFinalizada(SolicitacaoStatus.FINALIZADA, codigoSolicitacao);
 	}
 
 	public Solicitacao getByCodigo(Long codigo) {
@@ -41,6 +51,33 @@ public class SolicitacaoService {
 	public PageModel<Solicitacao> findAllOnLazyModel(PageRequestModel pr) {
 		Pageable pageable = pr.toSpringPageRequest();
 		Page<Solicitacao> page = solicitacaoRepository.findAllByOrderByDataAsc(pageable);
+		
+		PageModel<Solicitacao> pm = new PageModel<Solicitacao>((int) page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent());
+		
+		return pm;
+	}
+	
+	public PageModel<Solicitacao> findAllAbertaOnLazyModel(PageRequestModel pr) {
+		Pageable pageable = pr.toSpringPageRequest();
+		Page<Solicitacao> page = solicitacaoRepository.findAllByStatusOrderByDataAsc(SolicitacaoStatus.ABERTA ,pageable);
+		
+		PageModel<Solicitacao> pm = new PageModel<Solicitacao>((int) page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent());
+		
+		return pm;
+	}
+	
+	public PageModel<Solicitacao> findAllAceitaOnLazyModel(PageRequestModel pr) {
+		Pageable pageable = pr.toSpringPageRequest();
+		Page<Solicitacao> page = solicitacaoRepository.findAllByStatusOrderByDataAsc(SolicitacaoStatus.ACEITA ,pageable);
+		
+		PageModel<Solicitacao> pm = new PageModel<Solicitacao>((int) page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent());
+		
+		return pm;
+	}
+	
+	public PageModel<Solicitacao> findAllFinalizadaOnLazyModel(PageRequestModel pr) {
+		Pageable pageable = pr.toSpringPageRequest();
+		Page<Solicitacao> page = solicitacaoRepository.findAllByStatusOrderByDataAsc(SolicitacaoStatus.FINALIZADA ,pageable);
 		
 		PageModel<Solicitacao> pm = new PageModel<Solicitacao>((int) page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent());
 		

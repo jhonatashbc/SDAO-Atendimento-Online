@@ -38,7 +38,7 @@ public class AtendenteResource {
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdAtendente);
 	}
 
-	@PutMapping("{codigo}")
+	@PutMapping("/{codigo}")
 	public ResponseEntity<Atendente> update(
 			@PathVariable(name = "codigo") Long codigo,
 			@RequestBody @Valid AtendenteUpdateDto atendenteDto) {
@@ -50,7 +50,7 @@ public class AtendenteResource {
 		return ResponseEntity.ok(updatedAtendente);
 	}
 	
-	@GetMapping("{codigo}")
+	@GetMapping("/{codigo}")
 	public ResponseEntity<Atendente> getById(@PathVariable(name = "codigo") Long codigo){
 		Atendente atendente = atendenteService.getByCodigo(codigo);
 		

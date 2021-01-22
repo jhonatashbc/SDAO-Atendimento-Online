@@ -31,7 +31,7 @@ public class MensagemRepositoryTests {
 		
 		Mensagem createdMensagem = mensagemRepository.save(mensagem);
 		
-		assertThat(createdMensagem.getCodigo()).isEqualTo(5L);
+		assertThat(createdMensagem.getCodigo()).isEqualTo(3L);
 	}
 	
 	@Test
