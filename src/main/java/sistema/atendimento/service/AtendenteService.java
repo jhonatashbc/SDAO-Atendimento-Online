@@ -29,9 +29,9 @@ public class AtendenteService {
 		return updatedAtendente;
 	}
 	
-	public Atendente getById(Long id){
-		Optional<Atendente> result = atendenteRepository.findById(id);
-		return result.orElseThrow(()-> new NotFoundException("Não existe nenhum atendente com o código = " + id));
+	public Atendente getByCodigo(Long codigo){
+		Optional<Atendente> result = atendenteRepository.findById(codigo);
+		return result.orElseThrow(()-> new NotFoundException("Não existe nenhum atendente com o código = " + codigo));
 	}
 	
 }
